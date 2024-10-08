@@ -13,6 +13,12 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "prashyala1@gmail.com",
+        "ascAppId": "6733227611",
+        "appleTeamId": "78Y972UR5Y"
+      }
+    }
   }
 }

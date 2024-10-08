@@ -94,7 +94,7 @@ const ProfileScreen = () => {
         ]);
 
       if (error) {
-        console.error('Unexpected error saving profile data:', error.message);
+       
       } else {
         console.log('Profile data saved successfully:', data);
         navigation.navigate('Main');

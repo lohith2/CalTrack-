@@ -1,8 +1,7 @@
 {
   "expo": {
-    "name": "CalTrack",
+    "name": "CaloTrack",
     "slug": "calTrack",
-    "main": "App.js",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/appstore.png",
@@ -17,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cal.Track"
+      "bundleIdentifier": "com.sahil3211.calTrack",
+      "buildNumber":"2"
     },
     "android": {
       "adaptiveIcon": {

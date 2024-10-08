@@ -64,7 +64,7 @@ const MainScreen = () => {
             .single();
 
           if (error) {
-            console.error('Error fetching profile data:', error.message);
+           
           } else {
             setProfile(data);
           }
@@ -182,6 +182,7 @@ const MainScreen = () => {
       setErrorMessage('Unexpected error clearing food entries: ' + error.message);
     }
   };
+ 
 
   const calculateSuggestedCalories = useCallback(() => {
     if (!profile) return { 
@@ -455,3 +456,8 @@ const MainScreen = () => {
   );
 };
 export default MainScreen;
+
+
+
+
+
