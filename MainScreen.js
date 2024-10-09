@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from '@react-navigation/native';
 import ProteinPieChart from './ProteinPieChart';
+import { Platform } from 'react-native'; 
+import { v4 as uuidv4 } from 'uuid';
 
 const supabaseUrl = 'https://hkcxvbsjhcdgfjfrutcj.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrY3h2YnNqaGNkZ2ZqZnJ1dGNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTMzODY2MTQsImV4cCI6MjAyODk2MjYxNH0.jjY6wmZdD3p2EyzueUDIxGgsb2227Rgzxi82uicBJtI';
@@ -37,7 +39,24 @@ const MainScreen = () => {
     setTotalCalories(newTotalCalories);
     setTotalProtein(newTotalProtein);
   }, [foodEntries]);
-
+  useEffect(() => {
+    const fetchDeviceId = async () => {
+      if (Platform.OS === 'ios') {
+        const iosId = await Application.getIosIdForVendorAsync();
+        setDeviceId(iosId);
+      } else if (Platform.OS === 'android') {
+        const androidId = await Application.androidId; // For Android devices
+        setDeviceId(androidId);
+      } else {
+        // For web or any other platform, generate a unique ID
+        const uniqueId = localStorage.getItem('device_id') || uuidv4();
+        localStorage.setItem('device_id', uniqueId);
+        setDeviceId(uniqueId);
+      }
+    };
+  
+    fetchDeviceId();
+  }, []);
   useEffect(() => {
     updateTotals();
   }, [updateTotals]);
@@ -348,14 +367,11 @@ const MainScreen = () => {
     </TouchableOpacity>
   );
 
-  
-
-  const proteinPercentage = suggestedProtein > 0 ? (totalProtein / suggestedProtein) * 100 : 0;
-  
 
   const suggestedCalories = calculateSuggestedCalories();
-  const suggestedCaloriesPercentage = (totalCalories / suggestedCalories.suggestedCalories) * 100;
   const suggestedProtein = suggestedCalories.suggestedProtein;
+  const proteinPercentage = suggestedProtein > 0 ? (totalProtein / suggestedProtein) * 100 : 0;
+  const suggestedCaloriesPercentage = (totalCalories / suggestedCalories.suggestedCalories) * 100;
   const suggestedProteinPercentage = (totalProtein / suggestedCalories.suggestedProtein) * 100;
 
   return (
@@ -456,8 +472,6 @@ const MainScreen = () => {
   );
 };
 export default MainScreen;
-
-
 
 
 

@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sahil3211.calTrack",
-      "buildNumber":"2"
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,6 +32,12 @@
       "eas": {
         "projectId": "1a743a8f-0dbb-4720-a426-82f5e2d5e875"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1a743a8f-0dbb-4720-a426-82f5e2d5e875"
     }
   }
 }

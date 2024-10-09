@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Platform } from 'react-native';
 import { createClient } from '@supabase/supabase-js';
 import { useNavigation } from '@react-navigation/native';
 import * as Application from 'expo-application';
+import { v4 as uuidv4 } from 'uuid'; 
 
 const supabaseUrl = 'https://hkcxvbsjhcdgfjfrutcj.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrY3h2YnNqaGNkZ2ZqZnJ1dGNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTMzODY2MTQsImV4cCI6MjAyODk2MjYxNH0.jjY6wmZdD3p2EyzueUDIxGgsb2227Rgzxi82uicBJtI';
@@ -16,10 +17,19 @@ const ProfileScreen = () => {
   const [goalWeightState, setGoalWeight] = useState('');
   const [deviceId, setDeviceId] = useState('');
 
-  useEffect(() => { //authentication
+  useEffect(() => {
     const fetchDeviceId = async () => {
-      const iosId = await Application.getIosIdForVendorAsync();
-      setDeviceId(iosId);
+      if (Platform.OS === 'ios') {
+        const iosId = await Application.getIosIdForVendorAsync();
+        setDeviceId(iosId);
+      } else if (Platform.OS === 'android') {
+        const androidId = await Application.androidId;
+        setDeviceId(androidId);
+      } else {
+        const webDeviceId = localStorage.getItem('device_id') || uuidv4();
+        localStorage.setItem('device_id', webDeviceId);
+        setDeviceId(webDeviceId);
+      }
     };
 
     fetchDeviceId();
@@ -48,12 +58,10 @@ const ProfileScreen = () => {
               setGoalWeight(profile.goal_weight.toString());
             } else {
               console.log('No profile found for this device ID');
-              // Handle the case where no profile is found
-              // You might want to set default values or show a message to the user
             }
           }
         } catch (error) {
-          
+          console.error('Unexpected error fetching profile data:', error.message);
         }
       }
     };
@@ -62,22 +70,6 @@ const ProfileScreen = () => {
       fetchProfileData();
     }
   }, [deviceId]);
-
-  const handleSexChange = (text) => {
-    setSex(text);
-  };
-
-  const handleAgeChange = (text) => {
-    setAge(text);
-  };
-
-  const handleBodyWeightChange = (text) => {
-    setBodyWeight(text);
-  };
-
-  const handleGoalWeightChange = (text) => {
-    setGoalWeight(text);
-  };
 
   const handleSaveProfile = async () => {
     try {
@@ -94,7 +86,7 @@ const ProfileScreen = () => {
         ]);
 
       if (error) {
-       
+        console.error('Error saving profile data:', error.message);
       } else {
         console.log('Profile data saved successfully:', data);
         navigation.navigate('Main');
@@ -116,7 +108,7 @@ const ProfileScreen = () => {
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           value={sexState}
-          onChangeText={handleSexChange}
+          onChangeText={setSex}
         />
       </View>
       <View style={{ marginBottom: 10 }}>
@@ -124,7 +116,7 @@ const ProfileScreen = () => {
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           value={ageState}
-          onChangeText={handleAgeChange}
+          onChangeText={setAge}
           keyboardType="numeric"
         />
       </View>
@@ -133,7 +125,7 @@ const ProfileScreen = () => {
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           value={bodyWeightState}
-          onChangeText={handleBodyWeightChange}
+          onChangeText={setBodyWeight}
           keyboardType="numeric"
         />
       </View>
@@ -142,7 +134,7 @@ const ProfileScreen = () => {
         <TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           value={goalWeightState}
-          onChangeText={handleGoalWeightChange}
+          onChangeText={setGoalWeight}
           keyboardType="numeric"
         />
       </View>
