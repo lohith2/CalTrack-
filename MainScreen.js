@@ -45,10 +45,9 @@ const MainScreen = () => {
         const iosId = await Application.getIosIdForVendorAsync();
         setDeviceId(iosId);
       } else if (Platform.OS === 'android') {
-        const androidId = await Application.androidId; // For Android devices
+        const androidId = await Application.androidId;
         setDeviceId(androidId);
       } else {
-        // For web or any other platform, generate a unique ID
         const uniqueId = localStorage.getItem('device_id') || uuidv4();
         localStorage.setItem('device_id', uniqueId);
         setDeviceId(uniqueId);
