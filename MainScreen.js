@@ -380,7 +380,8 @@ const MainScreen = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Text style={{ fontSize: 16, color: '#333', padding: 5 }}>{`${item.food_name}: ${item.calories} calories, ${item.protein}g protein`}</Text>
-        )}
+        )
+      }
         ListHeaderComponent={
           <View>
             <Text style={{ fontFamily: 'cursive', fontSize: 40, color: 'white', marginBottom: 20, textAlign: 'center' }}>
@@ -471,6 +472,3 @@ const MainScreen = () => {
   );
 };
 export default MainScreen;
-
-
-

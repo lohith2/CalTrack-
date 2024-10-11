@@ -8,7 +8,14 @@ import ProfileScreen from './ProfileScreen';
 const Stack = createStackNavigator();
 
 const App = () => { return (
-  <View style={styles.container}>
+  <View   style={{
+    overflowY: 'scroll',
+    flex: 1,
+    backgroundColor: '#add8e6',
+    margin: -15,         
+    padding: -15,       
+    width: '100%',      
+  }}>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
@@ -26,7 +33,7 @@ const App = () => { return (
 const styles = StyleSheet.create({
 container: {
   flex: 1,
-  backgroundColor: '#add8e6', // Light blue background color
+  backgroundColor: '#add8e6', 
 },
 });
 
